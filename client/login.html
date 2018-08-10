@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+        <title>Login</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <script type="text/javascript">
+                function loginUser() {
+                        xhr = new XMLHttpRequest();
+                        var url = "http://localhost:3000/login";
+                        xhr.open("POST", url, true);
+                        xhr.setRequestHeader("Content-type", "application/json");
+
+                        xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                        var json = JSON.parse(xhr.responseText);
+                                        console.log(json.email + ", " + json.name)
+                                        
+                                }
+                        }
+
+                        var uname = document.getElementById('input5').value;
+                        var psw = document.getElementById('input6').value;
+                        var isValid = true;
+                        //validation of Username
+                        if ((uname == null) || (uname == "")) {
+                                isValid = false;
+                                document.getElementById("msg").innerHTML = "* Please enter Username";
+                        } else if ((uname.length < 3) || (uname.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg").innerHTML = "* Please enter Username between 3 and 20";
+                        } else {
+                                document.getElementById("msg").innerHTML = "";
+                        }
+
+                        //validation of password
+                        if ((psw == null) || (psw == "")) {
+                                isValid = false;
+                                document.getElementById("msg1").innerHTML = "* Please enter password ";
+                        } else if ((psw.length < 3) || (psw.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg1").innerHTML = "* Please enter password between 3 and 20";
+                        } else if (isNaN(psw)) {
+                                isValid = false;
+                                document.getElementById("msg4").innerHTML = "* Only numbers are allowed";
+
+
+                        } else {
+                                document.getElementById("msg1").innerHTML = "";
+                        }
+                        
+                        if(isvalid){
+                        var data = JSON.stringify({ "username": uname, "password": psw });
+                        xhr.send(data);
+}
+
+                }
+        </script>
+</head>
+
+
+<body>
+        <div class="login">
+                <div class="form">
+                        <form class="lform">
+                                <input type="text" placeholder="Username" id="input5" value="" />
+                                <span style="color:red" id="msg"></span>
+                                <input type="Passwod" placeholder="Password" id="input6" value="" />
+                                <span style="color:red" id="msg1"></span>
+                                <button type="button" onclick="loginUser()">Login</button>
+                                <p class="msg">Not registered?
+                                        <a href="register.html">Register</a>
+                                </p>
+                        </form>
+                </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<head>
+        <title>Registration</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <script type="text/javascript">
+                function registerUser() {
+                        xhr = new XMLHttpRequest();
+                        var url = "http://localhost:3000/register";
+                        xhr.open("POST", url, true);
+                        xhr.setRequestHeader("Content-type", "application/json");
+
+                        xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                        var json = JSON.parse(xhr.responseText);
+                                        console.log(json.email + ", " + json.name)
+                                }
+                        }
+                        var uname = document.getElementById('input1').value;
+                        var eml = document.getElementById('input2').value;
+                        var psw = document.getElementById('input3').value;
+                        var cpsw = document.getElementById('input4').value;
+                        var isValid = true;
+                        var correct_way = /^[A-Za-z]+$/;
+                        //validation of Username
+                        if ((uname == null) || (uname == "")) {
+                                isValid = false;
+                                document.getElementById("msg2").innerHTML = "* Please enter Username";
+                        } else if ((uname.length < 3) || (uname.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg2").innerHTML = "* Please enter Username between 3 and 20";
+                                // }else {
+                                //         if(uname.match(correct_way)){
+                                //         true;}
+                                //         else {
+                                //          isValid = false;
+                                //          document.getElementById("msg2").innerHTML = "* Only alphabets are allowed";
+                                //         }  
+                        } else {
+                                document.getElementById("msg2").innerHTML = "";
+
+                        }
+                         //validating mail
+                        if ((eml == null) || (eml == "")) {
+                                isValid = false;
+                                document.getElementById("msg3").innerHTML = "* Please enter mail ";
+
+                        } else if (eml.indexOf('@') <= 0) {
+                                isValid = false;
+                                document.getElementById("msg3").innerHTML = "* Invalid @ position ";
+                        } else if (eml.charAt(eml.length - 4) != '.') {
+                                isValid = false;
+                                document.getElementById("msg3").innerHTML = "* Invalid .position";
+
+                        } else {
+                                document.getElementById("msg3").innerHTML = "";
+                        }
+                        //validation of password
+                        if ((psw == null) || (psw == "")) {
+                                isValid = false;
+                                document.getElementById("msg4").innerHTML = "* Please enter password ";
+                        } else if ((psw.length < 3) || (psw.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg4").innerHTML = "* Please enter password between 3 and 20";
+                        } else if (isNaN(psw)) {
+                                isValid = false;
+                                document.getElementById("msg4").innerHTML = "* Only numbers are allowed";
+
+                        } else {
+                                document.getElementById("msg4").innerHTML = "";
+                        }
+                        //validating confirm password
+                        if ((cpsw == null) || (cpsw == "")) {
+                                isValid = false;
+                                document.getElementById("msg5").innerHTML = "* Please enter  confirm password ";
+
+                        } else if (psw != cpsw) {
+                                isValid = false;
+                                document.getElementById("msg5").innerHTML = "* Password should be same as confirm password";
+
+                        } else if (isNaN(cpsw)) {
+                                isValid = false;
+                                document.getElementById("msg5").innerHTML = "* Only numbers are allowed";
+
+                        } else {
+                                document.getElementById("msg5").innerHTML = "";
+                        }
+                        if(isValid){
+                        var data = JSON.stringify({ "username": uname, "email": eml, "password": psw, "confirmpassword": cpsw });
+                        xhr.send(data);
+                   }
+                }
+        </script>
+</head>
+
+<body>
+        <div class="login">
+                <div class="form">
+                        <input type="text" placeholder="Username" id="input1" value="" />
+                        <span style="color:red" id="msg2"></span>
+                        <input type="email" placeholder="Email" id="input2" value="" />
+                        <span style="color:red" id="msg3"></span>
+                        <input type="password" placeholder="Password" id="input3" value="" />
+                        <span style="color:red" id="msg4"></span>
+                        <input type="password" placeholder="Confirm Password" id="input4" value="" />
+                        <span style="color:red" id="msg5"></span>
+                        <button type="button" onclick="registerUser()">Signup</button>
+                        <p class="msg">Already registered?
+                                <a href="login.html">Login</a>
+                        </p>
+                        <br>
+                </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<head>
+    <title>employee form</title>
+    <script type="text/javascript">
+        function employeeDetails() {
+                xhr = new XMLHttpRequest();
+                var url = "http://localhost:3000/employee";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type", "application/json");
+
+                xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                                var json = JSON.parse(xhr.responseText);
+                                console.log(json.email + ", " + json.name)
+                        }
+                }
+                var firstName = document.getElementById('userfname').value;
+                var lastname = document.getElementById('userlname').value;
+                var empMail = document.getElementById('mail').value;
+                var empMbl = document.getElementById('mbl').value;
+                var empId = document.getElementById('uid').value;
+                var empPsw = document.getElementById('psw').value;
+                var empCpsw = document.getElementById('cpsw').value;
+                var isValid = true;
+                        var correct_way = /^[A-Za-z]+$/;
+                        //validation of firstName
+                        if (firstName == null || firstName=="") {
+                                isValid = false;
+                                document.getElementById("msg6").innerHTML = "* Please enter firstName";
+                        } else if ((firstName.length < 3) || (firstName.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg6").innerHTML = "* Please enter firstName  between 3 and 20";
+         
+                        } else {
+                                document.getElementById("msg6").innerHTML = "";
+
+                        }
+                         //validation of lastname
+                         if ((lastname == null) || (lastname == "")) {
+                                isValid = false;
+                                document.getElementById("msg7").innerHTML = "* Please enter lastname";
+                        } else if ((lastname.length < 3) || (lastname.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg7").innerHTML = "* Please enter lastname between 3 and 20";
+         
+                        } else {
+                                document.getElementById("msg7").innerHTML = "";
+
+                        }
+                         //validating mail
+                        if ((empMail == null) || (empMail == "")) {
+                                isValid = false;
+                                document.getElementById("msg8").innerHTML = "* Please enter mail ";
+
+                        } else if (empMail.indexOf('@') <= 0) {
+                                isValid = false;
+                                document.getElementById("msg8").innerHTML = "* Invalid @ position ";
+                        } else if (empMail.charAt(empMail.length - 4) != '.') {
+                                isValid = false;
+                                document.getElementById("msg8").innerHTML = "* Invalid .position";
+
+                        } else {
+                                document.getElementById("msg8").innerHTML = "";
+                        }
+                        //validating mobile number
+                        if ((empMbl == null) || (empMbl == "")) {
+                                 isValid=false;
+                               document.getElementById("msg9").innerHTML = "* Please enter  mobile number";
+                               
+                        }
+                         else if (isNaN(empMbl)) {
+                                 isValid=false;
+                                document.getElementById("msg9").innerHTML = "* Only numbers are allowed";
+                                
+                        }
+                        else if ((empMbl.length < 10) || (empMbl.length > 10)) {
+                                isValid=false;
+                        document.getElementById("msg9").innerHTML = "* Mobile number must be 10 digits";
+                                
+                        }
+                        else if ((empMbl.charAt(0) != 9) && (empMbl.charAt(0) != 8) && (empMbl.charAt(0) != 7)) {
+                                isValid=false;
+                                 document.getElementById("msg9").innerHTML = "* Mobile number must start with 9,8,7";
+                              
+                        }else {
+                                document.getElementById("msg9").innerHTML = "";
+                        }
+                         //validation of Userid
+                         if ((empId== null) || (empId == "")) {
+                                isValid = false;
+                                document.getElementById("msg10").innerHTML = "* Please enter password ";
+                        } else if ((empId.length < 3) || (empId.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg10").innerHTML = "* Please enter password between 3 and 20";
+                        } else if (isNaN(empId)) {
+                                isValid = false;
+                                document.getElementById("msg10").innerHTML = "* Only numbers are allowed";
+
+                        } else {
+                                document.getElementById("msg10").innerHTML = "";
+                        }
+                        //validation of password
+                        if ((empPsw== null) || (empPsw == "")) {
+                                isValid = false;
+                                document.getElementById("msg11").innerHTML = "* Please enter password ";
+                        } else if ((empPsw.length < 3) || (empPsw.length > 20)) {
+                                isValid = false;
+                                document.getElementById("msg11").innerHTML = "* Please enter password between 3 and 20";
+                        } else if (isNaN(empPsw)) {
+                                isValid = false;
+                                document.getElementById("msg11").innerHTML = "* Only numbers are allowed";
+
+                        } else {
+                                document.getElementById("msg11").innerHTML = "";
+                        }
+                        
+                        //validating confirm password
+                        if ((empCpsw == null) || (empCpsw == "")) {
+                                isValid = false;
+                                document.getElementById("msg12").innerHTML = "* Please enter  confirm password ";
+
+                        } else if (empPsw != empCpsw) {
+                                isValid = false;
+                                document.getElementById("msg12").innerHTML = "* Password should be same as confirm password";
+
+                        } else if (isNaN(empCpsw)) {
+                                isValid = false;
+                                document.getElementById("msg12").innerHTML = "* Only numbers are allowed";
+
+                        } else {
+                                document.getElementById("msg12").innerHTML = "";
+                        }
+               if(isValid){
+                var data = JSON.stringify({ "First Name": firstName,"Last Name":lastname,
+                "Email":empMail,"Mobile":empMbl,"User Id": empId,
+                "password": empPsw,"Confirm Password": empCpsw});
+                console.log(data);
+                 xhr.send(data);
+               }
+        }
+</script>
+</head>
+<body>
+        <label> First Name*:</label>
+        <input type="text" id="userfname" value=""><span style="color:red" id="msg6"></span><br><br>
+        <label> Last Name:</label>
+        <input type="text" id="userlname" value=""> <span style="color:red" id="msg7"></span><br> <br>
+        <label> Email*: </label>
+        <input type="text" id="mail" value=""> <span style="color:red" id="msg8"></span><br> <br>
+        <label> Mobile*: </label>
+        <input type="text" id="mbl" value=""> <span style="color:red" id="msg9"></span><br><br>
+        <label>User Id:</label>
+        <input type="number" id="uid" value=""><span style="color:red" id="msg10"></span><br><br>
+        <label>Gender*:</label>
+        <input type="radio" id="gen" name="gender" value="Male">Male</input>
+        <input type="radio" id="gen" name="gender" value="Female">Female</input><br><br>
+        <label>Password*:</label>
+        <input type="password" id="psw" value=""><span style="color:red" id="msg11"></span> <br><br>
+         <label> Confirm Password*:</label>
+        <input type="password" id="cpsw" value=""><span style="color:red" id="msg12"></span><br><br>
+        <input type="button" onclick="employeeDetails()" style="color:green" value="Submit">
+        <input type="reset" style="color:green" value="Reset">
+
+    
+</body>
+
+</html>hii my name is alock

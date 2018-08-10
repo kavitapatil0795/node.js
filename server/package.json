@@ -1,0 +1,17 @@
+{
+  "name": "employee-mgmt",
+  "version": "1.0.0",
+  "description": "This project contains employee management features",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Kavita Patil",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.1"
+  }
+}
